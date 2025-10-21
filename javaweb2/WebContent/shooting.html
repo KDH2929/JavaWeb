@@ -35,62 +35,48 @@
            const HEART_HEIGHT = 36;
            const BULLET_SIZE = 36;   // 지름
 
-            function drawHeart(context, x, y) {
-                if (heartReady) {
-                    context.drawImage(heart, x, y, HEART_WIDTH, HEART_HEIGHT);
-                    return;
-                }
-
-                const w = HEART_WIDTH;
-                const h = HEART_HEIGHT;
-                const topCurveHeight = h * 0.30;
-
-                context.save();
-                context.beginPath();
-
-                // 아래 꼭짓점에서 시작 → 우측 상단 곡선 → 위 가운데 → 좌측 상단 곡선 → 다시 아래 꼭짓점
-                context.moveTo(x + w / 2, y + h);
-                context.bezierCurveTo(
-                    x + w / 2 + w * 0.20, y + h - topCurveHeight,
-                    x + w, y + h - topCurveHeight,
-                    x + w, y + h / 2
-                );
-                context.bezierCurveTo(
-                    x + w, y + h * 0.20,
-                    x + w * 0.75, y + h * 0.10,
-                    x + w / 2, y + h * 0.30
-                );
-                context.bezierCurveTo(
-                    x + w * 0.25, y + h * 0.10,
-                    x, y + h * 0.20,
-                    x, y + h / 2
-                );
-                context.bezierCurveTo(
-                    x, y + h - topCurveHeight,
-                    x + w / 2 - w * 0.20, y + h - topCurveHeight,
-                    x + w / 2, y + h
-                );
-
-                context.closePath();
-                context.fillStyle = "#ff2d55"; // 선명한 빨강
-                context.fill();
-                context.restore();
-            }
-
-            // 탄환(이미지 없으면 큰 원형 빨간 탄환)
-            function drawBullet(context, x, y) {
-                if (bulletReady) {
-                    context.drawImage(enemyBullet, x, y, BULLET_SIZE, BULLET_SIZE);
-                    return;
-                }
-                context.save();
-                context.beginPath();
-                context.arc(x + BULLET_SIZE / 2, y + BULLET_SIZE / 2, BULLET_SIZE / 2, 0, Math.PI * 2);
-                context.fillStyle = "#e53935";
-                context.fill();
-                context.restore();
-            }
-           
+			
+			function drawHeart(context, x, y) {
+			    const w = HEART_WIDTH;
+			    const h = HEART_HEIGHT;
+			
+			    context.save();
+			    context.fillStyle = "#ff2d55";
+			
+			
+			    const radius = w * 0.25;
+			    context.beginPath();
+			    context.arc(x + radius, y + radius, radius, 0, Math.PI * 2);
+			    context.fill();
+			
+			    context.beginPath();
+			    context.arc(x + w - radius, y + radius, radius, 0, Math.PI * 2);
+			    context.fill();
+			
+			    context.beginPath();
+			    context.moveTo(x, y + radius);
+			    context.lineTo(x + w, y + radius);
+			    context.lineTo(x + w / 2, y + h);
+			    context.closePath();
+			    context.fill();
+			
+			    context.restore();
+			}
+			
+	
+			function drawBullet(context, x, y) {
+			    const size = BULLET_SIZE;
+			
+			    context.save();
+			    context.fillStyle = "#e53935";
+			
+			    context.beginPath();
+			    context.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+			    context.fill();
+			
+			    context.restore();
+			}
+		           
 
             var score=0;
             var x=150;
@@ -880,4 +866,5 @@
         <canvas id="myCanvas" onclick="mouseclick(event)" width="350" height="500"></canvas>
         
     </body>
+
 </html>
